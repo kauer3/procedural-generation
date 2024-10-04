@@ -15,6 +15,9 @@ public class Room : MonoBehaviour
     public List<Room> neighbours;
     public List<string> openings = new List<string>();
 
+    // room geometry
+    public GameObject[] bases;
+
     void Awake()
     {
         roomLabel = GetComponentInChildren<TMP_Text>();
@@ -36,6 +39,25 @@ public class Room : MonoBehaviour
         if (isExit)
         {
             roomLabel.color = Color.red;
+        }
+    }
+
+    public GameObject PickBase()
+    {
+        GameObject roomBase;
+        List<GameObject> possibleBases = new List<GameObject>();
+
+        for (int i = 0; i < bases.Length; i++)
+        {
+            if (onPath)
+            {
+                RoomBaseInfo rbInfo = bases[i].GetComponent<RoomBaseInfo>();
+                bool containsAllOpenings = false;
+            }
+            else
+            {
+                possibleBases.Add(bases[i]);
+            }
         }
     }
 }

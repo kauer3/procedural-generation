@@ -88,6 +88,42 @@ public class _LevelGenerator : MonoBehaviour
         FindNextRoom();
     }
 
+    public void FindNextRoom()
+    {
+        currentRoom.neighbours = GetNeighbours(currentRoom);
+
+        if (currentRoom.neighbours.Count > 0)
+        {
+            int nextIndex = Random.Range(0, currentRoom.neighbours.Count);
+            Room nextRoom = currentRoom.neighbours[nextIndex];
+            nextRoom.onPath = true;
+
+            if (nextRoom.gridX == currentRoom.gridX - 1)
+            {
+                currentRoom.openings.Add("L");
+                nextRoom.openings.Add("R");
+            }
+            if (nextRoom.gridX == currentRoom.gridX + 1)
+            {
+                currentRoom.openings.Add("R");
+                nextRoom.openings.Add("L");
+            }
+            if (nextRoom.gridY == currentRoom.gridY + 1)
+            {
+                currentRoom.openings.Add("D");
+                currentRoom.openings.Add("U");
+            }
+            nextRoom.UpdateInfo();
+            currentRoom = nextRoom;
+            FindNextRoom();
+        }
+        else
+        {
+            currentRoom.isExit = true;
+            currentRoom.UpdateInfo();
+        }
+    }
+
     public List<Room> GetNeighbours(Room room)
     {
         List<Room> neighbours = new List<Room>();
